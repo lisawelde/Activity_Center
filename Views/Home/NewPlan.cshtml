@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Create Activity";
+}
+@model Plan
+
+<h1>Create an Activity</h1>
+
+<form action="create" method="POST" class="well">
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label>Title: </label>
+            <input type="text" name="Title" placeholder="Title" class="form-control" />
+            <span asp-validation-for="Title"></span>
+        </div>
+        <div class="col-md-6">
+            <label>Time: </label>
+            <input type="time" name="Time" placeholder="Time" class="form-control" />
+            <span asp-validation-for="Time"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-6">
+            <label>Date: </label>
+            <input type="date" name="Date" class="form-control" />
+            <span asp-validation-for="Date"></span>
+        </div>
+        <div class="col-md-3">
+            <label>Duration: </label>
+            <input type="number" name="DurationAmount" class="form-control" />
+        </div>
+        <div class="col-md-3">
+            <label>Select: </label>
+            <input type="text" name="DurationType" list="lengthOfTime" class="form-control">
+                <datalist id="lengthOfTime">
+                    <option>Hours</option>
+                    <option>Minutes</option>
+                    <option>Days</option>
+                </datalist>
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="col-md-12">
+            <label>Description</label>
+            <textarea type="text" name="Description" rows="4" class="form-control"></textarea>
+            <span asp-validation-for="Description"></span>
+        </div>
+    </div>
+    <input type="submit" value="Create Activity" class="btn btn-success" />    
+</form>

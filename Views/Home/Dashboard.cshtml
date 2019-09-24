@@ -1,0 +1,62 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@model User
+
+<h5>Welcome @ViewBag.Name!</h5>
+<br>
+
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Activity</th>
+      <th scope="col">Date and Time</th>
+      <th scope="col">Duration</th>
+      <th scope="col">Event Coordinator</th>
+      <th scope="col">No. of Participants</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach(var plan in ViewBag.Plans)
+    {
+    <tr>
+        <td><a href="/ViewPlan/@plan.PlanId">@plan.Title</a></td>
+        <td>@plan.Date.ToString("MMM dd") at @plan.Time.ToString("h:mm tt")</td>
+        <td>@plan.DurationAmount @plan.DurationType</td>
+        <td>@plan.Planner.Name</td>
+        <td>@plan.AttendingUsers.Count</td>
+        <td>
+            @{
+                if(@ViewBag.UserId == @plan.PlannerId)
+                {
+                <a href="/delete/@plan.PlanId" class="btn btn-danger">Delete</a>
+                }
+                else
+                {
+                    bool joined = false;
+                    foreach(var join in @plan.AttendingUsers)
+                    {
+                        if(join.UserId == @ViewBag.UserId)
+                        {
+                            joined=true;
+                        }
+                    }
+                    if (joined)
+                    {
+                        <a class="btn btn-warning" href="/leave/@plan.PlanId">Leave</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-success" href="/join/@plan.PlanId">Join</a>    
+                    }
+                }
+            }
+        </td>  
+    </tr>
+    }
+  </tbody>
+</table>
+
+<a href="/new">Add New Plan</a>

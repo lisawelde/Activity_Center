@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "View Activity";
+}
+
+@model Plan
+
+<br>
+<h1>@Model.Title</h1>
+<br>
+@{
+    if(@ViewBag.UserId == @Model.PlannerId)
+    {
+    <a href="/delete/@Model.PlanId" class="btn btn-danger">Delete</a>
+    }
+    else
+    {
+        bool joined = false;
+        foreach(var join in @ViewBag.Joins)
+        {
+            if(join.UserId == @ViewBag.UserId)
+            {
+                joined=true;
+            }
+        }
+        if (joined)
+        {
+            <a class="btn btn-warning" href="/leave/@Model.PlanId">Leave</a>
+        }
+        else
+        {
+            <a class="btn btn-success" href="/join/@Model.PlanId">Join</a>
+        }
+    }
+}
+
+<div>
+    <ul>
+        <h3>Event Coordinator: </h3><p>@Model.Planner.Name</p>
+        <br>
+        <h3>Description:</h3><p>@Model.Description</p>
+        <br>
+        <h3>Participants: </h3>
+        @foreach(var joins in Model.AttendingUsers)
+        {
+            <p>@joins.Joiner.Name</p>
+        }
+    </ul>
+</div>
